@@ -1,0 +1,12 @@
+button {
+    border: 1px solid black !important;
+    color: black !important;
+    font-weight: bolder !important;
+    font-size: large !important;
+    width: 300px;
+}
+
+#left {
+    background-image: url("./assets/flags.jpg");
+    min-height: 100vh;
+}

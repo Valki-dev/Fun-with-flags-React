@@ -1,0 +1,26 @@
+.answerButton {
+    width: 200px;
+}
+
+.card {
+    width: 1200px;
+}
+
+.correct {
+    background-color: rgba(4, 192, 4, 0.686) !important;
+    color: white !important;
+}
+
+.finishCard {
+    width: 800px;
+}
+
+img {
+    border: 2px solid black;
+    border-radius: 20px;
+}
+
+.incorrect {
+    background-color: rgba(228, 73, 73, 0.811) !important;
+    color: white;
+}

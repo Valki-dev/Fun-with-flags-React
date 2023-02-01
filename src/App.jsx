@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
-import EasyGame from './Components/EaseyGame';
+import EasyGame from './Components/EasyGame';
+import MediumGame from './Components/MediumGame';
 
 function App() {
-  const [gameMode, setGameMode] = useState({ easy: false, medium: false, hard: false });
+  const [gameMode, setGameMode] = useState({ easy: false, medium: false });
   const [allCountries, setAllCountries] = useState([]);
   const [randomCountries, setRandomCountries] = useState([]);
   const [randomNames, setRandomNames] = useState([]);
+  const [randomCapitals, setRandomCapitals] = useState([]);
 
   useEffect(() => {
 
@@ -23,20 +24,18 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (gameMode.easy || gameMode.medium || gameMode.hard) {
+    if (gameMode.easy || gameMode.medium) {
       let easyRandoms = []
       let mediumRandoms = []
-      let hardRandoms = []
 
       let counter = 0;
       let randoms = [];
 
       while (counter < 10) {
-        let random = Math.floor(Math.random(1) * allCountries.length);
+        let random = getRandom();
         if (!randomCountries.includes(allCountries[random])) {
           counter++;
           randoms.push(allCountries[random]);
-          setRandomCountries(randoms);
         }
       }
 
@@ -44,45 +43,53 @@ function App() {
         let easyCounter = 0;
 
         while (easyCounter < 30) {
-          let easyRandom = Math.floor(Math.random(1) * allCountries.length);
-          if (!randomNames.includes(allCountries[easyRandom]?.name?.common)) {
+          let easyRandom = getRandom();
+          if ((!randomNames.includes(allCountries[easyRandom]?.name?.common)) && (allCountries[easyRandom]?.name?.common)) {
             easyCounter++;
             easyRandoms.push(allCountries[easyRandom]?.name?.common);
           }
         }
       }
+      
+      if(gameMode.medium) {
+        let mediumCounter = 0;
 
+        while (mediumCounter < 30) {
+          let mediumRandom = getRandom();
+          if(!randomCapitals.includes(allCountries[mediumRandom]?.capital)) {
+            mediumCounter++;
+            mediumRandoms.push(allCountries[mediumRandom]?.capital);
+          }
+        }
+      }
+
+      setRandomCountries(randoms);
       setRandomNames(easyRandoms);
+      setRandomCapitals(mediumRandoms);
     }
 
   }, [allCountries, gameMode]);
 
-  if (gameMode.easy || gameMode.medium || gameMode.hard) {
+  const getRandom = () => {
+    return Math.floor(Math.random(1) * allCountries.length);
+  }
 
-    console.log(randomNames);
+  if (gameMode.easy || gameMode.medium) {
     return (
       <>
         {
           gameMode.easy && (
             <div className="container-fluid">
-              <div className="row">
-                <div className="col-12 col-lg-12">
-                  <EasyGame countries={randomCountries}></EasyGame>
-                </div>
-              </div>
+              <EasyGame randomCountries={randomCountries} randomNames={randomNames} setRandomCountries={setRandomCountries} setRandomNames={setRandomNames} gameMode={gameMode} setGameMode={setGameMode}></EasyGame>
             </div>
           )
         }
 
         {
           gameMode.medium && (
-            <p>MEDIO</p>
-          )
-        }
-
-        {
-          gameMode.hard && (
-            <p>DIFÍCIL</p>
+            <div className="container-fluid">
+              <MediumGame randomCountries={randomCountries} randomCapitals={randomCapitals} setRandomCountries={setRandomCountries} setRandomCapitals={setRandomCapitals} gameMode={gameMode} setGameMode={setGameMode}></MediumGame>
+            </div>
           )
         }
       </>
@@ -101,7 +108,6 @@ function App() {
                 <div className='d-flex justify-content-center align-items-center flex-column'>
                   <button className='btn btn-info mt-4 p-3' onClick={() => setGameMode({ ...gameMode, easy: true })} >Fácil</button>
                   <button className='btn btn-warning mt-3 p-3' onClick={() => setGameMode({ ...gameMode, medium: true })}>Intermedio</button>
-                  <button className='btn btn-danger mt-3 p-3' onClick={() => setGameMode({ ...gameMode, hard: true })}>Difícil</button>
                 </div>
               </div>
             </div>

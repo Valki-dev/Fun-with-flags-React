@@ -7,6 +7,7 @@ button {
 }
 
 #left {
-    background-image: url("./assets/flags.jpg");
+    background-image: url("./assets/fondo_banderas.jpg");
+    background-repeat: no-repeat;
     min-height: 100vh;
 }

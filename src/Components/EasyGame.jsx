@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react'
 import './EasyGame.css'
 
-const MediumGame = ({ randomCountries, randomCapitals, setRandomCountries, setRandomCapitals, gameMode, setGameMode }) => {
+const EasyGame = ({ randomCountries, randomNames, setRandomCountries, setRandomNames, gameMode, setGameMode }) => {
     const [answers, setAnswers] = useState([]);
     const [correctAnswer, setCorrectAnswer] = useState("");
     const [isCorrect, setIsCorrect] = useState(true);
     const [correctCounter, setCorrectCounter] = useState(0);
 
-   
     useEffect(() => {
-        const capitals = [...randomCapitals];
-        let capitalsSelected = capitals.splice(0, 3);
-        setRandomCapitals(capitals)
+
+        const names = [...randomNames];
+        let namesSelected = names.splice(0, 3);
+        setRandomNames(names)
         let countries = [...randomCountries];
 
-        capitalsSelected.push(countries[0]?.capital);
-        setCorrectAnswer(countries[0]?.capital);
+        namesSelected.push(countries[0]?.name?.common);
+        setCorrectAnswer(countries[0]?.name?.common);
 
-        shuffle(capitalsSelected);
+        shuffle(namesSelected);
         
-        setAnswers(capitalsSelected);
+        setAnswers(namesSelected);
     
         return () => { }
     }, [randomCountries]);
@@ -27,7 +27,7 @@ const MediumGame = ({ randomCountries, randomCapitals, setRandomCountries, setRa
     function shuffle(array) {
         array.sort(() => Math.random() - 0.5);
     }
-    
+
     const checkAnswer = (event, answer) => {
         let button = event.target;
         if(answer === correctAnswer) {
@@ -71,16 +71,16 @@ const MediumGame = ({ randomCountries, randomCapitals, setRandomCountries, setRa
     }
 
     const goHome = () => {
-        setGameMode({...gameMode, medium: false})
+        setGameMode({...gameMode, easy: false})
     }
 
-    return(
+    return (
         <>
             { randomCountries.length > 0 &&
                 <div className="row">
                     <div className="col-12 col-lg-12 mt-5 d-flex justify-content-center">
                         <div className="card">
-                            <h2 className='text-center mt-4 mb-4'>¿Cuál es lal capital de este país?</h2>
+                            <h2 className='text-center mt-4 mb-4'>¿Cuál es este país?</h2>
                             <div className='d-flex justify-content-center'>
                                 <img src={randomCountries[0]?.flags?.png} alt="" width={350} />
                             </div>
@@ -136,8 +136,9 @@ const MediumGame = ({ randomCountries, randomCapitals, setRandomCountries, setRa
                     </div>
                 </div>
             }
+            
         </>
     )
 }
 
-export default MediumGame;
+export default EasyGame;
